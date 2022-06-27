@@ -15,6 +15,8 @@ https://webapps.stackexchange.com/a/101153
 videoId  : [0-9A-Za-z_-]{10}[048AEIMQUYcgkosw]
 */
 
+gapi.load( "client" );
+
 var elems    = {}            ,
     options  = new Array( 8 ),
     permuts  = []            ,
@@ -59,8 +61,8 @@ elems.i_format.addEventListener( "change", format_demo   );
 elems.i_btn3  .addEventListener( "click" , convert_array );
 
 function set_api_key(){
-	if( gapi.client === undefined )
-		return set_err( "o_btn1", "No GAPI; local file?" );
+	if( location.protocol === "file:" )
+		return set_err( "o_btn1", "No GAPI; local file!" );
 	gapi.client.setApiKey( get_val( "i_apikey" ) );
 	gapi.client.load( "https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest" ).then(
 		_ => { set_txt( "o_btn1", "GAPI loaded"   );                   },
@@ -135,12 +137,12 @@ function format_demo(){
 function convert_array(){
 	var format = get_valid_formats( get_val( "i_format" ) ).symstr;
 	var pos = new Array( 16 ).fill().map( _ => [] );
-	for( var i = 0; i < 16; i++ ){
-		for( var j = 0; j < format.length; j++ )
+	for( var i = 16; i--; ){
+		for( var j = format.length; j--; )
 			if( format[ j ] === swaps[ i ][ 1 ] )
 				pos[ i ].push( j );
 	}
-	var videoID = new Array( 11 );
+	var videoID = format.split( "" );
 	videoids = permuts.map( code => {
 		for( var i = 16; i--; )
 			for( var j = pos[ i ].length; j--; )
