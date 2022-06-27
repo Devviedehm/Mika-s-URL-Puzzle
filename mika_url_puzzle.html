@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mika's URL puzzle</title>
+	<meta charset="UTF-8">
+	<style>
+body {
+	background : #333     ;
+	color      : #ccc     ;
+	margin     :       0px;
+	font-weight: bold     ;
+	font-family: monospace;
+}
+label {
+	width      :      10em;
+	height     :       1em;
+	line-height:      24px;
+	display    : block    ;
+	float      : left     ;
+	white-space: pre      ;
+}
+input {
+	width      :      24em;
+	background : #000     ;
+	color      : #fff     ;
+	font-weight: normal   ;
+	font-family: monospace;
+	white-space: pre      ;
+}
+input:disabled {
+	background : #111     ;
+	color      : #888     ;
+	font-style : italic   ;
+}
+span {
+	white-space: pre      ;
+}
+a {
+	background : #112     ;
+}
+a:link {
+	color      : #0cf     ;
+}
+a:visited {
+	color      : #36c     ;
+}
+a:hover {
+	color      : #9df     ;
+}
+a:active {
+	color      : #cef     ;
+}
+.div_title {
+	display    : block    ;
+	text-align : center   ;
+	font-size  :    1.25em;
+	background : #222     ;
+	color      : #d93     ;
+	border     : 5px solid #333;
+}
+.img_banner {
+	width      :      72em;
+	height     :      86px;
+}
+.half_div {
+	width      :      36em;
+	float      : left     ;
+}
+.small_btn {
+	width      :      12em;
+	margin     : 0.5em 0px;
+}
+#o_format {
+	background : #0008    ;
+	display    : block    ;
+	margin     :      10px;
+	padding    :       5px;
+	white-space: normal   ;
+	text-align : center   ;
+}
+.symbol_a { color: hsl(   0,  50%, 50% ); }
+.symbol_A { color: hsl(   0, 100%, 35% ); }
+.symbol_b { color: hsl(  45,  50%, 50% ); }
+.symbol_B { color: hsl(  45, 100%, 35% ); }
+.symbol_c { color: hsl(  90,  50%, 50% ); }
+.symbol_C { color: hsl(  90, 100%, 35% ); }
+.symbol_d { color: hsl( 135,  50%, 50% ); }
+.symbol_D { color: hsl( 135, 100%, 35% ); }
+.symbol_e { color: hsl( 180,  50%, 50% ); }
+.symbol_E { color: hsl( 180, 100%, 35% ); }
+.symbol_f { color: hsl( 225,  50%, 70% ); }
+.symbol_F { color: hsl( 225, 100%, 50% ); }
+.symbol_g { color: hsl( 270,  50%, 50% ); }
+.symbol_G { color: hsl( 270, 100%, 35% ); }
+.symbol_h { color: hsl( 315,  50%, 50% ); }
+.symbol_H { color: hsl( 315, 100%, 35% ); }
+#o2_check, #o2_valid {
+	background : #0008    ;
+	display    : block    ;
+	margin     :      10px;
+	padding    :       5px;
+}
+#o2_pbar {
+	background : #000     ;
+	display    : block    ;
+	margin     :      10px;
+	padding    :       5px;
+	white-space: normal   ;
+	text-align : center   ;
+}
+	</style>
+	<script src="https://apis.google.com/js/api.js"      ></script>
+	<script src="setup.js"                          defer></script>
+	<script src="checking.js"                       defer></script>
+</head>
+<body>
+	<image src="the_message.jpeg" class="img_banner"><br/>
+	<span>Get a Google API key from <a href="https://support.google.com/googleapi/answer/6158862" target="_blank">[HERE]</a></span><br/>
+	<span>Check the Discord channel <a href="https://discord.com/channels/871064080335667211/880706623851622400" target="_blank">#💬-lore-talk</a> for progress updates.</span><br/>
+	<span>There's also <a href="https://discord.com/channels/871064080335667211/955157881899073606" target="_blank">Ouja's Character Guessing.</a> thread directly.</span><br/>
+	<div class="half_div">
+		<span class="div_title">Setup</span>
+		<label for="i_apikey">API Key:</label><input type="text" id="i_apikey"/><br/>
+		<input type="submit" id="i_btn1" class="small_btn" value="Load API"/><span id="o_btn1"> Not loaded</span><br/>
+		<label for="i_chara1">C1 (a) Options:</label><input type="text" id="i_chara1" value="ezoanw"/><br/>
+		<label for="i_chara2">C2 (b) Options:</label><input type="text" id="i_chara2" value="wtza"/><br/>
+		<label for="i_chara3">C3 (c) Options:</label><input type="text" id="i_chara3" value="ylsen69"/><br/>
+		<label for="i_chara4">C4 (d) Options:</label><input type="text" id="i_chara4" value="hfkic"/><br/>
+		<label for="i_chara5">C5 (e) Options:</label><input type="text" id="i_chara5" value="lshoa"/><br/>
+		<label for="i_chara6">C6 (f) Options:</label><input type="text" id="i_chara6" value="owtamfyruchse"/><br/>
+		<label for="i_chara7">C7 (g) Options:</label><input type="text" id="i_chara7" value="yp"/><br/>
+		<label for="i_chara8">C8 (h) Options:</label><input type="text" id="i_chara8" value="cgkosw048MU"/><br/>
+		<input type="submit" id="i_btn2" class="small_btn" value="Generate list"/><span id="o_btn2"> 0 permutations</span><br/>
+		<label for="i_format">videoID Format:</label><input type="text" id="i_format" value="\a\A\b\c\D\E\c\F\g\g\h"/><br/>
+		<span id="o_format">
+			<span class="symbol_a">a</span><span class="symbol_A">A</span><span class="symbol_b">b</span><span class="symbol_c">c</span><span class="symbol_D">D</span><span class="symbol_E">E</span><span class="symbol_c">c</span><span class="symbol_F">F</span><span class="symbol_g">g</span><span class="symbol_g">g</span><span class="symbol_h">h</span></span>
+		<input type="submit" id="i_btn3" class="small_btn" value="Convert"/><span id="o_btn3"> 0 videoIDs</span><br/>
+	</div>
+	<div class="half_div">
+		<span class="div_title">Checking</span>
+		<input type="submit" id="i2_btn1" class="small_btn" value="Prepare"/>
+		<pre id="o2_check">videoIDs : 0
+Responses: 0
+Failures : 0
+Valid IDs: 0</pre>
+		<span id="o2_pbar">0 / 0 (0%)</span>
+		<label for="i2_qperc">Queries:Check</label><input type="number" id="i2_qperc" value="100" min="1"/><br/>
+		<label for="i2_dis1" >Max IDs:Query</label><input type="number" id="i2_dis1" value="50" disabled/><br/>
+		<input type="submit" id="i2_btn2" class="small_btn" value="Check"/>
+		<input type="submit" id="i2_btn3" class="small_btn" value="Re-add failures"/>
+		<pre id="o2_valid">Valid IDs:
+----------</pre>
+	</div>
+</body>
+</html>
