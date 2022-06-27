@@ -57,7 +57,7 @@ Valid IDs: ${padded( valid_IDs         )}
 
 function update_o2_valid(){
 	var valid_links = valid_IDs.map( id => `<a href="https://www.youtube.com/watch?v=${id}" target="_blank">${id}</a>` ).join( "\n" );
-	elems.o2_valid.innerText = `Valid IDs:
+	elems.o2_valid.innerHTML = `Valid IDs:
 ----------
 ${valid_links}`;
 	last_valid_amount = valid_IDs.length;
