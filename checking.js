@@ -9,7 +9,8 @@ var videoids_to_check =  [],
     space_padding     =   0,
     total_to_check    =   0,
     last_valid_amount =   0,
-    queries_per_check = 100;
+    queries_per_check = 100,
+    update_timeout    =  -1;
 
 elems.i2_btn1 .addEventListener( "click" , prepare_check );
 elems.i2_qperc.addEventListener( "change", update_qperc  );
@@ -55,9 +56,10 @@ Valid IDs: ${padded( valid_IDs         )}
 }
 
 function update_o2_valid(){
+	var valid_links = valid_IDs.map( id => `<a href="https://www.youtube.com/watch?v=${id}" target="_blank">${id}</a>` ).join( "\n" );
 	elems.o2_valid.innerText = `Valid IDs:
 ----------
-${valid_IDs.join( "\n" )}`;
+${valid_links}`;
 	last_valid_amount = valid_IDs.length;
 }
 
@@ -78,13 +80,19 @@ function update_qperc(){
 function check_queries(){
 	for( var i = queries_per_check; i-- && videoids_to_check.length > 0; )
 		gapi_exec( videoids_to_check.splice( 0, 50 ) );
-	window.setTimeout( update_o2_check, 10 );
+	schedule_update_o2();
 }
 
 function readd_fails(){
 	videoids_to_check = videoids_to_check.concat( failures );
 	failures = [];
 	update_o2_check();
+}
+
+function schedule_update_o2(){
+	if( update_timeout === -1 )
+		window.clearTimeout( update_timeout );
+	update_timeout = window.setTimeout( update_o2_check, 100 );
 }
 
 function gapi_exec( id_array ){
@@ -94,10 +102,12 @@ function gapi_exec( id_array ){
 			for( var item of r.result.items ){
 				valid_IDs.push( item.id );
 			}
+			schedule_update_o2();
 		},
 		e => { 
 			failures = failures.concat( id_array );
 			console.error( "Execute error", e );
+			schedule_update_o2();
 		}
 	);
 }
